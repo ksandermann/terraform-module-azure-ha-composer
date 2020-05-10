@@ -10,11 +10,11 @@ write_files:
   - path: /etc/composer/docker-compose.yml
     encoding: b64
     content: ${docker_compose_file_b64}
-  %{ for configfile in container_config_files ~}
+%{ for configfile in container_config_files ~}
   - path: ${configfile.host_path}
     encoding: b64
     content: ${configfile.file_content_b64}
-  %{ endfor ~}
+%{ endfor ~}
 runcmd:
   - systemctl daemon-reload
   - systemctl enable composer.service
