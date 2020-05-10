@@ -63,3 +63,8 @@ variable "boot_diagnostics_enabled" {
   type    = bool
   default = false
 }
+
+variable "loadbalancer_enable_snat" {
+  type    = bool
+  default = true
+}
