@@ -25,6 +25,8 @@ runcmd:
   - echo "checking composer status after 5 seconds..."
   - sleep 5
   - systemctl status composer.service
+  - echo "listing containers..."
+  - docker ps
 
 
 

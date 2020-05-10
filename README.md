@@ -8,6 +8,7 @@ into the containers.
 1. Resource Groups for the loadbalancer and the scaleset. Can be the same.
 1. A VNET to place both the loadbalancer and the scaleset.
 1. Subnets for the loadbalancer and the scaleset. Can be the same.
+1. Connectivity on the configured routes between the used subnets. Both NSGs and routes have to be configured, if applicable.
 1. A Public SSH key for the scaleset admin user.
 1. *Optional*: If you choose to opt-in for boot diagnostics for the scaleset, an appropriate storage account is needed.
 
