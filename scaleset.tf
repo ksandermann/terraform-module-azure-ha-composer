@@ -7,6 +7,9 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   admin_username      = var.scaleset_admin_username
   //TODO
   admin_password = "test123"
+  upgrade_mode   = "Automatic"
+
+
   custom_data = base64encode(
     templatefile("${path.module}/templates/cloud-init.tmpl",
       {

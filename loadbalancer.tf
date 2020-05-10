@@ -12,7 +12,7 @@ resource "azurerm_lb" "this" {
     private_ip_address         = local.loadbalancer_frontend_private_ip
     private_ip_address_version = var.loadbalancer_ip_version
     //TODO
-    zones = [0]
+    zones = [1]
   }
 
   dynamic "frontend_ip_configuration" {
