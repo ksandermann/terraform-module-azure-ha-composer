@@ -27,4 +27,9 @@ data "azurerm_subnet" "loadbalancer" {
   virtual_network_name = data.azurerm_virtual_network.this.name
 }
 
+data "azurerm_storage_account" "boot_diagnostics" {
+  count               = var.boot_diagnostics_enabled ? 1 : 0
+  name                = var.boot_diagnostics_storage_account_name
+  resource_group_name = var.boot_diagnostics_storage_account_rg_name
+}
 

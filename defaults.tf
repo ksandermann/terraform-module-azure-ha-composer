@@ -48,3 +48,18 @@ variable "scaleset_enable_automatic_os_upgrade" {
   type    = bool
   default = true
 }
+
+variable "boot_diagnostics_storage_account_rg_name" {
+  type    = string
+  default = ""
+}
+
+variable "boot_diagnostics_storage_account_name" {
+  type    = string
+  default = ""
+}
+
+variable "boot_diagnostics_enabled" {
+  type    = bool
+  default = false
+}

@@ -46,6 +46,13 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
     }
   }
 
+  dynamic "boot_diagnostics" {
+    for_each = data.azurerm_storage_account.boot_diagnostics.*
+    content {
+      storage_account_uri = each.primary_blob_endpoint
+    }
+  }
+
   //  automatic_os_upgrade_policy {
   //    enable_automatic_os_upgrade = var.scaleset_enable_automatic_os_upgrade
   //    disable_automatic_rollback  = var.scaleset_disable_automatic_rollback
