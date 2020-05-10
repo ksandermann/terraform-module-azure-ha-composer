@@ -41,9 +41,10 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
     primary = true
 
     ip_configuration {
-      name      = format("%s%s", var.scaleset_name, "PRVIP001")
-      primary   = true
-      subnet_id = data.azurerm_subnet.scaleset.id
+      name                                   = format("%s%s", var.scaleset_name, "PRVIP001")
+      primary                                = true
+      subnet_id                              = data.azurerm_subnet.scaleset.id
+      load_balancer_backend_address_pool_ids = azurerm_lb_backend_address_pool.this.id
     }
   }
 
