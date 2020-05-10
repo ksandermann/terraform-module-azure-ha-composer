@@ -8,6 +8,9 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   //TODO
   admin_password                  = "Test123"
   disable_password_authentication = false
+  depends_on = [azurerm_lb_rule.this
+  ]
+  health_probe_id = azurerm_lb_probe.this.id
 
 
   custom_data = base64encode(local.cloud_init_rendered)
