@@ -69,4 +69,5 @@ resource "azurerm_lb_rule" "this" {
   frontend_ip_configuration_name = azurerm_lb.this.frontend_ip_configuration[0].name
   backend_address_pool_id        = azurerm_lb_backend_address_pool.this.id
   probe_id                       = azurerm_lb_probe.this.id
+  disable_outbound_snat          = true
 }
