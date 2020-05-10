@@ -16,15 +16,13 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
 
   health_probe_id = azurerm_lb_probe.this.id
 
+  tags       = var.scaleset_tags
   depends_on = [azurerm_lb_rule.this]
-
   lifecycle {
     ignore_changes = [
       instances,
     ]
   }
-
-  tags = var.scaleset_tags
 
   admin_ssh_key {
     username   = var.scaleset_admin_username
@@ -62,7 +60,6 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
     }
   }
 
-
   upgrade_mode    = "Automatic"
   scale_in_policy = "OldestVM"
 
@@ -76,7 +73,6 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
     grace_period = "PT30M"
   }
 }
-
 
 resource "azurerm_monitor_autoscale_setting" "this" {
   count               = var.scaleset_enable_autoscaling ? 1 : 0

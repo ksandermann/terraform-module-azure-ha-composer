@@ -62,4 +62,5 @@ resource "azurerm_lb_rule" "this" {
   probe_id                       = azurerm_lb_probe.this.id
   //true =  snat disabled
   disable_outbound_snat = ! var.loadbalancer_enable_snat
+  depends_on            = [azurerm_lb.this]
 }
