@@ -28,8 +28,8 @@ data "azurerm_subnet" "loadbalancer" {
 }
 
 data "azurerm_storage_account" "boot_diagnostics" {
-  count               = var.boot_diagnostics_enabled ? 1 : 0
-  name                = var.boot_diagnostics_storage_account_name
-  resource_group_name = var.boot_diagnostics_storage_account_rg_name
+  count               = var.scaleset_boot_diagnostics_enabled ? 1 : 0
+  name                = var.scaleset_boot_diagnostics_storage_account_name
+  resource_group_name = var.scaleset_boot_diagnostics_storage_account_rg_name
 }
 

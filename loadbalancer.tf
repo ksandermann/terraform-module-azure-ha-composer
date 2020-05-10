@@ -13,7 +13,7 @@ resource "azurerm_lb" "this" {
       subnet_id                     = data.azurerm_subnet.loadbalancer.id
       private_ip_address            = local.loadbalancer_frontend_private_ip
       private_ip_address_allocation = "Static"
-      private_ip_address_version    = var.loadbalancer_ip_version
+      private_ip_address_version    = "IPv4"
     }
   }
 
