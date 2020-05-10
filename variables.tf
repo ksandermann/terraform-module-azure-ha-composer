@@ -54,4 +54,10 @@ variable "container_config_files" {
   }))
 }
 
-
+variable "loadbalancer_ports" {
+  type = map(object({
+    port     = number
+    protocol = string
+  }))
+  description = "first has to be tcp and will be used for health probes"
+}
