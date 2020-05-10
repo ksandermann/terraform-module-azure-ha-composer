@@ -23,12 +23,9 @@ resource "azurerm_lb" "this" {
   dynamic "frontend_ip_configuration" {
     for_each = var.loadbalancer_enable_public_ip ? ["enablethis"] : []
     content {
-      name                          = format("%s%s", var.loadbalancer_name, "IP001")
-      subnet_id                     = data.azurerm_subnet.loadbalancer.id
-      private_ip_address            = local.loadbalancer_frontend_private_ip
-      private_ip_address_allocation = "Static"
-      private_ip_address_version    = var.loadbalancer_ip_version
-      public_ip_address_id          = azurerm_public_ip.this[0].id
+      name                 = format("%s%s", var.loadbalancer_name, "IP001")
+      subnet_id            = data.azurerm_subnet.loadbalancer.id
+      public_ip_address_id = azurerm_public_ip.this[0].id
       //TODO
       zones = [1]
     }
