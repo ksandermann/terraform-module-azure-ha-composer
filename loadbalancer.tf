@@ -11,7 +11,7 @@ resource "azurerm_lb" "this" {
     content {
       name                          = format("%s%s", var.loadbalancer_name, "PRIVIP001")
       subnet_id                     = data.azurerm_subnet.loadbalancer.id
-      private_ip_address            = local.loadbalancer_frontend_private_ip
+      private_ip_address            = var.loadbalancer_frontend_private_ip == "" ? cidrhost(data.azurerm_subnet.loadbalancer.address_prefix, 5) : var.loadbalancer_frontend_private_ip
       private_ip_address_allocation = "Static"
       private_ip_address_version    = "IPv4"
     }
