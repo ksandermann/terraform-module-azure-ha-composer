@@ -49,6 +49,24 @@ variable "scaleset_storage_account_type" {
   description = "Storageaccount type for the scaleset instances' OS disks."
 }
 
+variable "scaleset_admin_username" {
+  type        = string
+  default     = "composer-admin"
+  description = "Name of the admin user of the scaleset instances."
+}
+
+variable "scaleset_admin_password" {
+  type        = string
+  default     = ""
+  description = "Password for the admin user of the scaleset instances"
+}
+
+variable "scaleset_enable_autoscaling" {
+  type        = bool
+  default     = true
+  description = "Wether autoscaling based on CPU should be enabled for the scaleset"
+}
+
 variable "scaleset_boot_diagnostics_enabled" {
   type        = bool
   default     = false
@@ -65,6 +83,12 @@ variable "scaleset_boot_diagnostics_storage_account_name" {
   type        = string
   default     = ""
   description = "Name of the storageaccount used to store the boot diagnostics of the scaleset. Only used when scaleset_boot_diagnostics_enabled is set to true. (which it is not by default)"
+}
+
+variable "scaleset_tags" {
+  type        = map(string)
+  default     = {}
+  description = "Resource Tags to add to the scaleset"
 }
 
 //TODO

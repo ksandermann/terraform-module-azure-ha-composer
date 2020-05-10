@@ -3,17 +3,32 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   resource_group_name = data.azurerm_resource_group.scaleset.name
   location            = var.location
   sku                 = var.scaleset_sku
-  instances           = length(var.zones)
-  admin_username      = var.scaleset_admin_username
-  //TODO
-  admin_password                  = "Test123"
-  disable_password_authentication = false
-  depends_on = [azurerm_lb_rule.this
-  ]
+
+  instances    = length(var.zones)
+  zones        = var.zones
+  zone_balance = true
+
+  admin_username                  = var.scaleset_admin_username
+  admin_password                  = var.scaleset_admin_password
+  disable_password_authentication = var.scaleset_admin_password == "" ? true : false
+  custom_data                     = base64encode(local.cloud_init_rendered)
+  provision_vm_agent              = true
+
   health_probe_id = azurerm_lb_probe.this.id
 
+  depends_on = [azurerm_lb_rule.this]
 
-  custom_data = base64encode(local.cloud_init_rendered)
+  dynamic "lifecycle" {
+    for_each = var.scaleset_enable_autoscaling ? ["autoscaling_enabled"] : []
+    content {
+      ignore_changes = [
+        instances,
+      ]
+    }
+  }
+
+  tags = var.scaleset_tags
+
   admin_ssh_key {
     username   = var.scaleset_admin_username
     public_key = var.scaleset_admin_ssh_key
@@ -50,8 +65,76 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
     }
   }
 
-  //  automatic_os_upgrade_policy {
-  //    enable_automatic_os_upgrade = var.scaleset_enable_automatic_os_upgrade
-  //    disable_automatic_rollback  = var.scaleset_disable_automatic_rollback
-  //  }
+
+  upgrade_mode    = "Automatic"
+  scale_in_policy = "OldestVM"
+
+  automatic_os_upgrade_policy {
+    enable_automatic_os_upgrade = var.scaleset_enable_automatic_os_upgrade
+    disable_automatic_rollback  = var.scaleset_disable_automatic_rollback
+  }
+
+  automatic_instance_repair {
+    enabled      = true
+    grace_period = "PT30M"
+  }
+}
+
+
+resource "azurerm_monitor_autoscale_setting" "this" {
+  count               = var.scaleset_enable_autoscaling ? 1 : 0
+  name                = var.scaleset_name
+  resource_group_name = azurerm_linux_virtual_machine_scale_set.this.resource_group_name
+  location            = azurerm_linux_virtual_machine_scale_set.this.location
+  target_resource_id  = azurerm_linux_virtual_machine_scale_set.this.id
+
+  profile {
+    name = var.scaleset_name
+
+    capacity {
+      default = length(var.zones)
+      minimum = length(var.zones)
+      maximum = length(var.zones) + 3
+    }
+
+    rule {
+      metric_trigger {
+        metric_name        = "Percentage CPU"
+        metric_resource_id = azurerm_linux_virtual_machine_scale_set.this.id
+        time_grain         = "PT1M"
+        statistic          = "Average"
+        time_window        = "PT5M"
+        time_aggregation   = "Average"
+        operator           = "GreaterThan"
+        threshold          = 75
+      }
+
+      scale_action {
+        direction = "Increase"
+        type      = "ChangeCount"
+        value     = "1"
+        cooldown  = "PT1M"
+      }
+    }
+
+    rule {
+      metric_trigger {
+        metric_name        = "Percentage CPU"
+        metric_resource_id = azurerm_linux_virtual_machine_scale_set.this.id
+        time_grain         = "PT1M"
+        statistic          = "Average"
+        time_window        = "PT5M"
+        time_aggregation   = "Average"
+        operator           = "LessThan"
+        threshold          = 25
+      }
+
+      scale_action {
+        direction = "Decrease"
+        type      = "ChangeCount"
+        value     = "1"
+        cooldown  = "PT1M"
+      }
+    }
+  }
 }

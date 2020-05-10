@@ -9,7 +9,7 @@ resource "azurerm_lb" "this" {
   dynamic "frontend_ip_configuration" {
     for_each = var.loadbalancer_enable_public_ip ? [] : ["private_frontend_enabled"]
     content {
-      name                          = format("%s%s", var.loadbalancer_name, "IP001")
+      name                          = format("%s%s", var.loadbalancer_name, "PRIVIP001")
       subnet_id                     = data.azurerm_subnet.loadbalancer.id
       private_ip_address            = local.loadbalancer_frontend_private_ip
       private_ip_address_allocation = "Static"
@@ -21,7 +21,7 @@ resource "azurerm_lb" "this" {
   dynamic "frontend_ip_configuration" {
     for_each = var.loadbalancer_enable_public_ip ? ["public_frontend_enabled"] : []
     content {
-      name                 = format("%s%s", var.loadbalancer_name, "IP001")
+      name                 = format("%s%s", var.loadbalancer_name, "PUBIP001")
       public_ip_address_id = azurerm_public_ip.this[0].id
     }
   }
@@ -57,7 +57,7 @@ resource "azurerm_lb_rule" "this" {
   protocol                       = each.value.protocol
   frontend_port                  = each.value.port
   backend_port                   = each.value.port
-  frontend_ip_configuration_name = azurerm_lb.this.frontend_ip_configuration[0].name
+  frontend_ip_configuration_name = var.loadbalancer_enable_public_ip ? format("%s%s", var.loadbalancer_name, "PUBIP001") : format("%s%s", var.loadbalancer_name, "PRIVIP001")
   backend_address_pool_id        = azurerm_lb_backend_address_pool.this.id
   probe_id                       = azurerm_lb_probe.this.id
   //true =  snat disabled

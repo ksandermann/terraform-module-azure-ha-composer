@@ -72,9 +72,9 @@ variable "scaleset_subnet_name" {
   description = "Name of the subnet to place the scaleset in. Has to be created beforehand outside of this module."
 }
 
-variable "scaleset_admin_username" {
+variable "scaleset_admin_ssh_key" {
   type        = string
-  description = "Name of the admin user of the scaleset instances."
+  description = "Public SSH key for the scaleset's instances' admin user."
 }
 
 //TODO
@@ -83,7 +83,4 @@ variable "loadbalancer_subnet_name" {
   description = ""
 }
 
-variable "scaleset_admin_ssh_key" {
-  type        = string
-  description = ""
-}
+
