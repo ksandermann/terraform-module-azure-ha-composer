@@ -7,7 +7,6 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   admin_username      = var.scaleset_admin_username
   //TODO
   admin_password = "test123"
-  upgrade_mode   = "Automatic"
 
 
   custom_data = base64encode(
@@ -47,8 +46,8 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
     }
   }
 
-  automatic_os_upgrade_policy {
-    enable_automatic_os_upgrade = var.scaleset_enable_automatic_os_upgrade
-    disable_automatic_rollback  = var.scaleset_disable_automatic_rollback
-  }
+  //  automatic_os_upgrade_policy {
+  //    enable_automatic_os_upgrade = var.scaleset_enable_automatic_os_upgrade
+  //    disable_automatic_rollback  = var.scaleset_disable_automatic_rollback
+  //  }
 }
