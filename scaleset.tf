@@ -18,13 +18,10 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
 
   depends_on = [azurerm_lb_rule.this]
 
-  dynamic "lifecycle" {
-    for_each = var.scaleset_enable_autoscaling ? ["autoscaling_enabled"] : []
-    content {
-      ignore_changes = [
-        instances,
-      ]
-    }
+  lifecycle {
+    ignore_changes = [
+      instances,
+    ]
   }
 
   tags = var.scaleset_tags
