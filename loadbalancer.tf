@@ -28,7 +28,7 @@ resource "azurerm_lb" "this" {
       private_ip_address            = local.loadbalancer_frontend_private_ip
       private_ip_address_allocation = "Static"
       private_ip_address_version    = var.loadbalancer_ip_version
-      public_ip_address_id          = azurerm_public_ip.this.id
+      public_ip_address_id          = azurerm_public_ip.this[0].id
       //TODO
       zones = [1]
     }
