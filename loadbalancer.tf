@@ -5,17 +5,15 @@ resource "azurerm_lb" "this" {
   sku                 = var.loadbalancer_sku
   tags                = var.loadbalancer_tags
 
-  //only private
-  dynamic "frontend_ip_configuration" {
-    for_each = var.loadbalancer_enable_public_ip ? [] : ["private_frontend_enabled"]
-    content {
-      name                          = format("%s%s", var.loadbalancer_name, "PRIVIP001")
-      subnet_id                     = data.azurerm_subnet.loadbalancer.id
-      private_ip_address            = var.loadbalancer_frontend_private_ip == "" ? cidrhost(data.azurerm_subnet.loadbalancer.address_prefix, 5) : var.loadbalancer_frontend_private_ip
-      private_ip_address_allocation = "Static"
-      private_ip_address_version    = "IPv4"
-    }
+  // private
+  frontend_ip_configuration {
+    name                          = format("%s%s", var.loadbalancer_name, "PRIVIP001")
+    subnet_id                     = data.azurerm_subnet.loadbalancer.id
+    private_ip_address            = var.loadbalancer_frontend_private_ip == "" ? cidrhost(data.azurerm_subnet.loadbalancer.address_prefix, 5) : var.loadbalancer_frontend_private_ip
+    private_ip_address_allocation = "Static"
+    private_ip_address_version    = "IPv4"
   }
+
 
   //public
   dynamic "frontend_ip_configuration" {
@@ -57,7 +55,7 @@ resource "azurerm_lb_rule" "this" {
   protocol                       = each.value.protocol
   frontend_port                  = each.value.port
   backend_port                   = each.value.port
-  frontend_ip_configuration_name = var.loadbalancer_enable_public_ip ? format("%s%s", var.loadbalancer_name, "PUBIP001") : format("%s%s", var.loadbalancer_name, "PRIVIP001")
+  frontend_ip_configuration_name = var.loadbalancer_enable_public_ip ? azurerm_lb.this.frontend_ip_configuration[1].name : azurerm_lb.this.frontend_ip_configuration[0].name
   backend_address_pool_id        = azurerm_lb_backend_address_pool.this.id
   probe_id                       = azurerm_lb_probe.this.id
   //true =  snat disabled
