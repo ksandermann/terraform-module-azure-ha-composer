@@ -24,7 +24,6 @@ resource "azurerm_lb" "this" {
     for_each = var.loadbalancer_enable_public_ip ? ["enablethis"] : []
     content {
       name                 = format("%s%s", var.loadbalancer_name, "IP001")
-      subnet_id            = data.azurerm_subnet.loadbalancer.id
       public_ip_address_id = azurerm_public_ip.this[0].id
       //TODO
       zones = [1]
