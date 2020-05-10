@@ -5,7 +5,6 @@ data "template_file" "cloudinit" {
     docker_compose_file_b64  = var.docker_compose_file_b64
     container_config_files   = var.container_config_files
   }
-
 }
 
 data "template_file" "systemd_service" {
