@@ -18,16 +18,13 @@ write_files:
 runcmd:
   - echo "systemctl daemon-reload..."
   - systemctl daemon-reload
-  - echo "enabling composer.service"
+  - echo "enabling composer.service..."
   - systemctl enable composer.service
-  - echo "starting composer.service"
+  - echo "starting composer.service..."
   - systemctl start composer.service
-  - echo "composer status"
+  - echo "checking composer status after 5 seconds..."
+  - sleep 5
   - systemctl status composer.service
-  - echo "composer journal"
-  - journalctl -xeu composer.service
-  - echo "cloud-final status"
-  - systemctl status cloud-final.service
 
 
 
