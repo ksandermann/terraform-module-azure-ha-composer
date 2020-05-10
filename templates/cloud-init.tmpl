@@ -16,8 +16,11 @@ write_files:
     content: ${configfile.file_content_b64}
 %{ endfor ~}
 runcmd:
+  - echo "systemctl daemon-reload..."
   - systemctl daemon-reload
+  - echo "enabling composer.service"
   - systemctl enable composer.service
+  - echo "starting composer.service"
   - systemctl start composer.service
   - echo "composer status"
   - systemctl status composer.service

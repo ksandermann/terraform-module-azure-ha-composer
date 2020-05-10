@@ -3,20 +3,22 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   resource_group_name = data.azurerm_resource_group.scaleset.name
   location            = var.location
   sku                 = var.scaleset_sku
+  tags                = var.scaleset_tags
 
-  instances    = length(var.zones)
-  zones        = var.zones
-  zone_balance = true
+  //high-availability
+  instances       = length(var.zones)
+  zones           = var.zones
+  zone_balance    = true
+  health_probe_id = azurerm_lb_probe.this.id
 
+  //guest OS
   admin_username                  = var.scaleset_admin_username
   admin_password                  = var.scaleset_admin_password
   disable_password_authentication = var.scaleset_admin_password == "" ? true : false
   custom_data                     = base64encode(local.cloud_init_rendered)
   provision_vm_agent              = true
 
-  health_probe_id = azurerm_lb_probe.this.id
-
-  tags       = var.scaleset_tags
+  //terraform lifecycle
   depends_on = [azurerm_lb_rule.this]
   lifecycle {
     ignore_changes = [
@@ -60,6 +62,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
     }
   }
 
+  //upgrades
   upgrade_mode    = "Automatic"
   scale_in_policy = "OldestVM"
 
