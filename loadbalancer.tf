@@ -54,7 +54,7 @@ resource "azurerm_lb_probe" "this" {
   resource_group_name = azurerm_lb.this.resource_group_name
   loadbalancer_id     = azurerm_lb.this.id
   name                = var.scaleset_name
-  port                = var.loadbalancer_ports[0]
+  port                = var.loadbalancer_ports[0].port
 }
 
 resource "azurerm_lb_rule" "this" {
@@ -65,5 +65,5 @@ resource "azurerm_lb_rule" "this" {
   protocol                       = each.value.protocol
   frontend_port                  = each.value.port
   backend_port                   = each.value.port
-  frontend_ip_configuration_name = azurerm_lb.this.frontend_ip_configuration[0].content.name
+  frontend_ip_configuration_name = azurerm_lb.this.frontend_ip_configuration[0].name
 }
