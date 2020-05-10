@@ -63,6 +63,13 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   upgrade_mode    = "Automatic"
   scale_in_policy = "OldestVM"
 
+  rolling_upgrade_policy {
+    max_batch_instance_percent              = 34
+    max_unhealthy_instance_percent          = 67
+    max_unhealthy_upgraded_instance_percent = 67
+    pause_time_between_batches              = "PT5M"
+  }
+
   automatic_os_upgrade_policy {
     enable_automatic_os_upgrade = var.scaleset_enable_automatic_os_upgrade
     disable_automatic_rollback  = var.scaleset_disable_automatic_rollback
