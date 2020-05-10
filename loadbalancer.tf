@@ -7,10 +7,11 @@ resource "azurerm_lb" "this" {
   tags                = var.loadbalancer_tags
 
   frontend_ip_configuration {
-    name                       = format("%s%s", var.loadbalancer_name, "PRVIP001")
-    subnet_id                  = data.azurerm_subnet.loadbalancer.id
-    private_ip_address         = local.loadbalancer_frontend_private_ip
-    private_ip_address_version = var.loadbalancer_ip_version
+    name                          = format("%s%s", var.loadbalancer_name, "PRVIP001")
+    subnet_id                     = data.azurerm_subnet.loadbalancer.id
+    private_ip_address            = local.loadbalancer_frontend_private_ip
+    private_ip_address_allocation = "Static"
+    private_ip_address_version    = var.loadbalancer_ip_version
     //TODO
     zones = [1]
   }
