@@ -6,7 +6,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   instances           = length(var.zones)
   admin_username      = var.scaleset_admin_username
   //TODO
-  admin_password                  = "test123"
+  admin_password                  = "Test123"
   disable_password_authentication = false
 
 
