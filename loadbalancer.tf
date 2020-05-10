@@ -14,8 +14,6 @@ resource "azurerm_lb" "this" {
       private_ip_address            = local.loadbalancer_frontend_private_ip
       private_ip_address_allocation = "Static"
       private_ip_address_version    = var.loadbalancer_ip_version
-      //TODO
-      zones = [1]
     }
   }
 
@@ -36,7 +34,6 @@ resource "azurerm_public_ip" "this" {
   resource_group_name = data.azurerm_resource_group.loadbalancer.name
   allocation_method   = "Static"
   sku                 = var.loadbalancer_sku
-  zones               = var.zones
 }
 
 resource "azurerm_lb_backend_address_pool" "this" {
