@@ -43,6 +43,11 @@ variable "loadbalancer_name" {
   description = "Name of the loadbalancer resource"
 }
 
+variable "loadbalancer_subnet_name" {
+  type        = string
+  description = "Name of the subnet to place the loadbalancer private frontend IP in."
+}
+
 variable "loadbalancer_ports" {
   type = map(object({
     port     = number
@@ -76,8 +81,3 @@ variable "scaleset_admin_ssh_key" {
   type        = string
   description = "Public SSH key for the scaleset's instances' admin user."
 }
-
-//TODO
-
-
-

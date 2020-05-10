@@ -6,12 +6,6 @@ variable "zones" {
 }
 
 // loadbalancer
-variable "loadbalancer_subnet_name" {
-  type        = string
-  default     = ""
-  description = "Name of the subnet to place the loadbalancer private frontend IP in. Only used when loadbalancer_enable_public_ip is set to false (which it is not per default)."
-}
-
 variable "loadbalancer_sku" {
   type        = string
   default     = "Standard"
