@@ -35,6 +35,8 @@ resource "azurerm_public_ip" "this" {
   location            = var.location
   resource_group_name = data.azurerm_resource_group.loadbalancer.name
   allocation_method   = "Static"
+  sku                 = var.loadbalancer_sku
+  zones               = var.zones
 }
 
 resource "azurerm_lb_backend_address_pool" "this" {
