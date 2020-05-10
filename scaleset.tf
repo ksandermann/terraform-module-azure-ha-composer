@@ -49,7 +49,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   dynamic "boot_diagnostics" {
     for_each = data.azurerm_storage_account.boot_diagnostics.*
     content {
-      storage_account_uri = data.azurerm_storage_account.boot_diagnostics.primary_blob_endpoint
+      storage_account_uri = data.azurerm_storage_account.boot_diagnostics[0].primary_blob_endpoint
     }
   }
 
