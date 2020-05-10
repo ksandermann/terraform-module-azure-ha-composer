@@ -70,5 +70,5 @@ resource "azurerm_lb_rule" "this" {
   backend_address_pool_id        = azurerm_lb_backend_address_pool.this.id
   probe_id                       = azurerm_lb_probe.this.id
   //false =  snat disabled
-  disable_outbound_snat = false
+  disable_outbound_snat = true
 }
