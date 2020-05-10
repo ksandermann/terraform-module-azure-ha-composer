@@ -61,3 +61,7 @@ variable "loadbalancer_ports" {
   }))
   description = "first has to be tcp and will be used for health probes"
 }
+
+variable "loadbalancer_healthprobe_port" {
+  type = number
+}
