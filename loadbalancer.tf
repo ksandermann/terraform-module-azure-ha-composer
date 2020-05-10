@@ -11,7 +11,8 @@ resource "azurerm_lb" "this" {
     subnet_id                  = data.azurerm_subnet.loadbalancer.id
     private_ip_address         = local.loadbalancer_frontend_private_ip
     private_ip_address_version = var.loadbalancer_ip_version
-    zones                      = var.zones
+    //TODO
+    zones = [0]
   }
 
   dynamic "frontend_ip_configuration" {
