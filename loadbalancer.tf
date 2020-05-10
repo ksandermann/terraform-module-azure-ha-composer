@@ -17,7 +17,7 @@ resource "azurerm_lb" "this" {
     }
   }
 
-  //public and private
+  //public
   dynamic "frontend_ip_configuration" {
     for_each = var.loadbalancer_enable_public_ip ? ["public_frontend_enabled"] : []
     content {
