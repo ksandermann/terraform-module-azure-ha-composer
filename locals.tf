@@ -1,5 +1,6 @@
 locals {
-  systemd_svc_rendered = templatefile("${path.module}/templates/systemd-service.tmpl", {})
+  loadbalancer_frontend_private_ip = var.loadbalancer_frontend_private_ip == "" ? cidrhost(data.azurerm_subnet.loadbalancer.address_prefix, 5) : var.loadbalancer_frontend_private_ip
+  systemd_svc_rendered             = templatefile("${path.module}/templates/systemd-service.tmpl", {})
   cloud_init_rendered = templatefile("${path.module}/templates/cloud-init.tmpl",
     {
       systemd_service_file_b64 = base64encode(local.systemd_svc_rendered)
@@ -7,5 +8,4 @@ locals {
       container_config_files   = var.container_config_files
     }
   )
-
 }

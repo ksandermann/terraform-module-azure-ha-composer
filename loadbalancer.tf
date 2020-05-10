@@ -7,7 +7,7 @@ resource "azurerm_lb" "this" {
 
   //only private
   dynamic "frontend_ip_configuration" {
-    for_each = var.loadbalancer_enable_public_ip ? [] : ["enablethis"]
+    for_each = var.loadbalancer_enable_public_ip ? [] : ["private_frontend_enabled"]
     content {
       name                          = format("%s%s", var.loadbalancer_name, "IP001")
       subnet_id                     = data.azurerm_subnet.loadbalancer.id
@@ -19,7 +19,7 @@ resource "azurerm_lb" "this" {
 
   //public and private
   dynamic "frontend_ip_configuration" {
-    for_each = var.loadbalancer_enable_public_ip ? ["enablethis"] : []
+    for_each = var.loadbalancer_enable_public_ip ? ["public_frontend_enabled"] : []
     content {
       name                 = format("%s%s", var.loadbalancer_name, "IP001")
       public_ip_address_id = azurerm_public_ip.this[0].id
@@ -41,8 +41,6 @@ resource "azurerm_lb_backend_address_pool" "this" {
   loadbalancer_id     = azurerm_lb.this.id
   name                = var.scaleset_name
 }
-
-
 
 resource "azurerm_lb_probe" "this" {
   resource_group_name = azurerm_lb.this.resource_group_name

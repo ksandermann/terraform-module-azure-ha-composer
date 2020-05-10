@@ -28,10 +28,6 @@ variable "zones" {
   default = [1, 2, 3]
 }
 
-locals {
-  loadbalancer_frontend_private_ip = var.loadbalancer_frontend_private_ip == "" ? cidrhost(data.azurerm_subnet.loadbalancer.address_prefix, 5) : var.loadbalancer_frontend_private_ip
-}
-
 variable "scaleset_sku" {
   type    = string
   default = "Standard_F2s"
