@@ -50,13 +50,14 @@ resource "azurerm_lb_probe" "this" {
 }
 
 resource "azurerm_lb_rule" "this" {
-  for_each                       = var.loadbalancer_ports
-  resource_group_name            = azurerm_lb.this.resource_group_name
-  loadbalancer_id                = azurerm_lb.this.id
-  name                           = format("%s%s%s", each.key, each.value.protocol, each.value.port)
-  protocol                       = each.value.protocol
-  frontend_port                  = each.value.port
-  backend_port                   = each.value.port
+  for_each            = var.loadbalancer_ports
+  resource_group_name = azurerm_lb.this.resource_group_name
+  loadbalancer_id     = azurerm_lb.this.id
+  name                = format("%s%s%s", each.key, each.value.protocol, each.value.port)
+  protocol            = each.value.protocol
+  frontend_port       = each.value.port
+  backend_port        = each.value.port
+  //workaround as referencing dynamic objects is buggy
   frontend_ip_configuration_name = var.loadbalancer_enable_public_ip ? format("%s%s", var.loadbalancer_name, "PUBIP001") : format("%s%s", var.loadbalancer_name, "PRIVIP001")
   backend_address_pool_id        = azurerm_lb_backend_address_pool.this.id
   probe_id                       = azurerm_lb_probe.this.id
