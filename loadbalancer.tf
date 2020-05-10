@@ -25,8 +25,6 @@ resource "azurerm_lb" "this" {
     content {
       name                 = format("%s%s", var.loadbalancer_name, "IP001")
       public_ip_address_id = azurerm_public_ip.this[0].id
-      //TODO
-      zones = [1]
     }
   }
 }
