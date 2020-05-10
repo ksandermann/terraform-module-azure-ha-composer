@@ -22,6 +22,7 @@ data "azurerm_subnet" "scaleset" {
 }
 
 data "azurerm_subnet" "loadbalancer" {
+  count                = var.loadbalancer_enable_public_ip ? 0 : 1
   name                 = var.loadbalancer_subnet_name
   resource_group_name  = data.azurerm_virtual_network.this.resource_group_name
   virtual_network_name = data.azurerm_virtual_network.this.name

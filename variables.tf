@@ -78,9 +78,6 @@ variable "scaleset_admin_ssh_key" {
 }
 
 //TODO
-variable "loadbalancer_subnet_name" {
-  type        = string
-  description = ""
-}
+
 
 

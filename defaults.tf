@@ -6,6 +6,12 @@ variable "zones" {
 }
 
 // loadbalancer
+variable "loadbalancer_subnet_name" {
+  type        = string
+  default     = ""
+  description = "Name of the subnet to place the loadbalancer private frontend IP in. Only used when loadbalancer_enable_public_ip is set to false (which it is not per default)."
+}
+
 variable "loadbalancer_sku" {
   type        = string
   default     = "Standard"
@@ -21,12 +27,12 @@ variable "loadbalancer_tags" {
 variable "loadbalancer_frontend_private_ip" {
   type        = string
   default     = ""
-  description = "Frontend private IP address of the loadbalancer. Has to be inside the loadbalancer subnet. Only used when loadbalancer_enable_public_ip is set to false (which it is per default). If not provided, the 5th IP inside the subnet will be used."
+  description = "Frontend private IP address of the loadbalancer. Has to be inside the loadbalancer subnet. Only used when loadbalancer_enable_public_ip is set to false (which it is not per default). If not provided, the 5th IP inside the subnet will be used."
 }
 
 variable "loadbalancer_enable_public_ip" {
   type        = bool
-  default     = false
+  default     = true
   description = "Wether a new Public IP should be created for the loadbalancer."
 }
 
