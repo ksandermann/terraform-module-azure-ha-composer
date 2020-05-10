@@ -19,6 +19,12 @@ runcmd:
   - systemctl daemon-reload
   - systemctl enable composer.service
   - systemctl start composer.service
+  - echo "composer status"
+  - systemctl status composer.service
+  - echo "composer journal"
+  - journalctl -xeu composer.service
+  - echo "cloud-final status"
+  - systemctl status cloud-final.service
 
 
 
