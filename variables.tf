@@ -33,12 +33,23 @@ variable "location" {
 }
 
 variable "scaleset_name" {
-  default = ""
+  type = string
 }
 
 variable "scaleset_admin_username" {
-  default = ""
+  type = string
 }
 variable "scaleset_admin_ssh_key" {
-  default = ""
+  type = string
+}
+
+variable "docker_compose_file_b64" {
+  type = string
+}
+
+variable "container_config_files" {
+  type = map(object({
+    host_path        = string
+    file_content_b64 = string
+  }))
 }
