@@ -6,9 +6,6 @@ After=docker.service
 [Service]
 Restart=always
 
-# Compose down
-ExecStartPre=/usr/bin/docker-compose -f /etc/composer/docker-compose.yml down -v
-
 # Compose up
 ExecStart=/usr/bin/docker-compose -f /etc/composer/docker-compose.yml up
 
