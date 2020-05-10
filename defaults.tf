@@ -5,7 +5,7 @@ variable "loadbalancer_sku" {
 
 variable "loadbalancer_tags" {
   type    = map(string)
-  default = []
+  default = {}
 }
 
 variable "loadbalancer_frontend_private_ip" {
